@@ -78,16 +78,7 @@ trwifi_result_e wifi_utils_deinit(void)
 	if (_send_msg(&msg) < 0) {
 		return TRWIFI_FAIL;
 	}
-#if defined(CONFIG_ENABLE_HOMELYNK) && (CONFIG_ENABLE_HOMELYNK == 1)
-	trwifi_result_e res1 = TRWIFI_SUCCESS;
-	lwnl_msg msg1 = {WU_INTF_NAME_1, {LWNL_REQ_WIFI_DEINIT}, 0, NULL, (void *)&res1};
-	if (_send_msg(&msg1) < 0) {
-		return TRWIFI_FAIL;
-	}
-	if (res1 != TRWIFI_SUCCESS) {
-		return res1;
-	}
-#endif
+	dbg("LWNL_REQ_WIFI_DEINIT res : %d\n", res);
 	return res;
 }
 

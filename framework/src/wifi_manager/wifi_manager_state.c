@@ -250,7 +250,7 @@ static void _free_scan_list(trwifi_scan_list_s *scan_list)
 wifi_manager_result_e _wifimgr_deinit(void)
 {
 	WIFIMGR_CHECK_UTILRESULT(wifi_utils_deinit(), TAG, "wifi_utils_deinit fail");
-	wifimgr_unregister_all();
+	//wifimgr_unregister_all();
 
 	return WIFI_MANAGER_SUCCESS;
 }
@@ -455,7 +455,7 @@ wifi_manager_result_e _handler_on_disconnected_state(wifimgr_msg_s *msg)
 	} else if (msg->event == WIFIMGR_CMD_DEINIT) {
 		WIFIMGR_CHECK_RESULT(_wifimgr_deinit(), (TAG, "critical error\n"), WIFI_MANAGER_FAIL);
 		WIFIMGR_SEND_API_SIGNAL(msg->signal);
-		WIFIMGR_SET_STATE(WIFIMGR_UNINITIALIZED);
+		////WIFIMGR_SET_STATE(WIFIMGR_UNINITIALIZED);
 	} else if (msg->event == WIFIMGR_CMD_SET_SOFTAP) {
 		WIFIMGR_CHECK_RESULT(_wifimgr_run_softap((wifi_manager_softap_config_s *)msg->param),
 							 (TAG, "run_softap fail\n"), WIFI_MANAGER_FAIL);
@@ -521,7 +521,7 @@ wifi_manager_result_e _handler_on_disconnecting_state(wifimgr_msg_s *msg)
 	case WIFIMGR_DISCONN_DEINIT:
 		WIFIMGR_CHECK_RESULT(_wifimgr_deinit(), (TAG, "critical error\n"), WIFI_MANAGER_FAIL);
 		WIFIMGR_SEND_API_SIGNAL(g_manager_info.api_sig);
-		WIFIMGR_SET_STATE(WIFIMGR_UNINITIALIZED);
+		WIFIMGR_SET_STATE(WIFIMGR_STA_DISCONNECTED);
 		break;
 	case WIFIMGR_DISCONN_SOFTAP:
 #if defined(CONFIG_ENABLE_HOMELYNK) && (CONFIG_ENABLE_HOMELYNK == 1)
@@ -709,7 +709,7 @@ wifi_manager_result_e _handler_on_softap_state(wifimgr_msg_s *msg)
 		WIFIMGR_CHECK_RESULT(_wifimgr_stop_softap(), (TAG, "critical error\n"), WIFI_MANAGER_FAIL);
 		WIFIMGR_CHECK_RESULT(_wifimgr_deinit(), (TAG, "critical error\n"), WIFI_MANAGER_FAIL);
 		WIFIMGR_SEND_API_SIGNAL(msg->signal);
-		WIFIMGR_SET_STATE(WIFIMGR_UNINITIALIZED);
+		//WIFIMGR_SET_STATE(WIFIMGR_UNINITIALIZED);
 #if defined(CONFIG_ENABLE_HOMELYNK) && (CONFIG_ENABLE_HOMELYNK == 1)
 	} else if (msg->event == WIFIMGR_CMD_SET_BRIDGE) {
 		wifi_manager_bridge_config_s *config = (wifi_manager_bridge_config_s *)msg->param;
@@ -746,7 +746,7 @@ wifi_manager_result_e _handler_on_bridge_state(wifimgr_msg_s *msg)
 		} else {
 			WIFIMGR_CHECK_RESULT(_wifimgr_deinit(), (TAG, "critical error\n"), WIFI_MANAGER_FAIL);
 			WIFIMGR_SEND_API_SIGNAL(msg->signal);
-			WIFIMGR_SET_STATE(WIFIMGR_UNINITIALIZED);
+			//WIFIMGR_SET_STATE(WIFIMGR_UNINITIALIZED);
 		}
 	} else if (msg->event == WIFIMGR_CMD_CONNECT && g_bridge_state.is_sta_connected == false) {
 		wifi_manager_ap_config_s *apinfo = (wifi_manager_ap_config_s *)msg->param;
