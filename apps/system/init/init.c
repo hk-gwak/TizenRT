@@ -19,6 +19,7 @@
  * Included Files
  ****************************************************************************/
 #include <stdio.h>
+#include <string.h>
 #include <tinyara/config.h>
 #ifdef CONFIG_SCHED_USRWORK
 #include <tinyara/wqueue.h>
@@ -47,6 +48,9 @@
 #endif
 #ifdef CONFIG_WIFI_MANAGER
 #include <tinyara/wifi/wifi_manager.h>
+#include <wifi_manager/wifi_manager.h>
+#include <net/if.h>
+#include <netutils/netlib.h>
 #endif
 #ifdef CONFIG_BLE_MANAGER
 #include <tinyara/ble/ble_handler.h>
@@ -190,6 +194,41 @@ int preapp_start(int argc, char *argv[])
 
 #if defined(CONFIG_WIFI_MANAGER)
 	(void)wifimgr_run_msghandler();
+
+	/* Start SoftAP mode after WiFi Manager initialization */
+	{
+		wifi_manager_cb_s wifi_callbacks = {NULL, NULL, NULL, NULL, NULL};
+		wifi_manager_result_e res;
+		uint8_t mac_addr[IFHWADDRLEN];
+		char ssid_buf[33];
+
+		/* Get MAC address to create unique SSID */
+		if (netlib_getmacaddr("wlan0", mac_addr) == 0) {
+			snprintf(ssid_buf, sizeof(ssid_buf), "tp1xp-%02X%02X%02X",
+					mac_addr[3], mac_addr[4], mac_addr[5]);
+		} else {
+			printf("Failed to get MAC address, using default SSID\n");
+			strncpy(ssid_buf, "tp1xp-000000", sizeof(ssid_buf) - 1);
+		}
+
+		res = wifi_manager_init(&wifi_callbacks);
+		if (res == WIFI_MANAGER_SUCCESS) {
+			wifi_manager_softap_config_s softap_config;
+			memset(&softap_config, 0, sizeof(wifi_manager_softap_config_s));
+			strncpy(softap_config.ssid, ssid_buf, sizeof(softap_config.ssid) - 1);
+			strncpy(softap_config.passphrase, "1111122222", sizeof(softap_config.passphrase) - 1);
+			softap_config.channel = 1;
+
+			res = wifi_manager_set_mode(SOFTAP_MODE, &softap_config);
+			if (res != WIFI_MANAGER_SUCCESS) {
+				printf("Failed to set SoftAP mode: %d\n", res);
+			} else {
+				printf("SoftAP mode started successfully (SSID: %s, Channel: 1)\n", ssid_buf);
+			}
+		} else {
+			printf("Failed to init wifi_manager: %d\n", res);
+		}
+	}
 #endif
 
 #if defined(CONFIG_BLE_MANAGER)
