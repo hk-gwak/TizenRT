@@ -20,6 +20,7 @@
  ****************************************************************************/
 #include <stdio.h>
 #include <string.h>
+#include <unistd.h>
 #include <tinyara/config.h>
 #ifdef CONFIG_SCHED_USRWORK
 #include <tinyara/wqueue.h>
@@ -194,6 +195,9 @@ int preapp_start(int argc, char *argv[])
 
 #if defined(CONFIG_WIFI_MANAGER)
 	(void)wifimgr_run_msghandler();
+
+	/* Wait for WiFi Manager message handler to be ready */
+	usleep(500000);
 
 	/* Start SoftAP mode after WiFi Manager initialization */
 	{
