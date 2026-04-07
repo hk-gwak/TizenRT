@@ -53,7 +53,11 @@
 	" run scan specific channel:\n"						\
 	"	 wm_test scan ch [channel]\n"					\
 	" run scan specific SSID in specific channel:\n"	\
-	"	 wm_test scan both [ssid] [channel]\n"
+	"	 wm_test scan both [ssid] [channel]\n"			\
+	" run multi scan with one AP config:\n"			\
+	"	 wm_test scan_multi ssid [ssid]\n"				\
+	"	 wm_test scan_multi ch [channel]\n"			\
+	"	 wm_test scan_multi both [ssid] [channel]\n"
 
 #define WT_PROFILE_USAGE										\
 	"\n set a profile:\n"										\

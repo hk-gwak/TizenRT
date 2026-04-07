@@ -545,6 +545,34 @@ void _wt_scan(void *arg)
 	WT_LEAVE;
 }
 
+void _wt_scan_multi(void *arg)
+{
+	WT_ENTER;
+	wifi_manager_result_e res = WIFI_MANAGER_SUCCESS;
+	wifi_manager_scan_multi_configs_s configs;
+	struct wt_options *ap_info = (struct wt_options *)arg;
+
+	memset(&configs, 0, sizeof(configs));
+	configs.scan_ap_config_count = 1;
+	configs.scan_all = 0;
+
+	if (ap_info->ssid) {
+		configs.ap_configs[0].ssid_length = strlen(ap_info->ssid);
+		strncpy(configs.ap_configs[0].ssid, ap_info->ssid, configs.ap_configs[0].ssid_length + 1);
+	}
+	if (ap_info->channel > 0) {
+		configs.ap_configs[0].channel = ap_info->channel;
+	}
+
+	res = wifi_manager_scan_multi_aps(&configs);
+	if (res != WIFI_MANAGER_SUCCESS) {
+		WT_LOGE(TAG, "multi scan Fail");
+		return;
+	}
+	WT_TEST_WAIT; // wait the scan result
+	WT_LEAVE;
+}
+
 void _wt_get_stats(void *arg)
 {
 	WT_ENTER;
@@ -802,6 +830,20 @@ int _wt_parse_scan(struct wt_options *opt, int argc, char *argv[])
 	} else {
 		return -1;
 	}
+	return 0;
+}
+
+int _wt_parse_scan_multi(struct wt_options *opt, int argc, char *argv[])
+{
+	int ret = _wt_parse_scan(opt, argc, argv);
+	if (ret < 0) {
+		return ret;
+	}
+
+	if (!opt->scan_specific) {
+		return -1;
+	}
+
 	return 0;
 }
 
