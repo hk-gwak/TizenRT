@@ -423,6 +423,18 @@ wifi_manager_result_e _wifimgr_disable_11ax_mode(void)
 	return WIFI_MANAGER_SUCCESS;
 }
 
+wifi_manager_result_e _wifimgr_disable_bfmee_mode(uint8_t disable)
+{
+	WIFIMGR_CHECK_UTILRESULT(wifi_utils_disable_bfmee_mode(disable), TAG, "disable bfmee mode fail");
+	return WIFI_MANAGER_SUCCESS;
+}
+
+wifi_manager_result_e _wifimgr_disable_ofdma_mode(uint8_t disable)
+{
+	WIFIMGR_CHECK_UTILRESULT(wifi_utils_disable_ofdma_mode(disable), TAG, "disable ofdma mode fail");
+	return WIFI_MANAGER_SUCCESS;
+}
+
 wifi_manager_result_e _handler_on_uninitialized_state(wifimgr_msg_s *msg)
 {
 	wifimgr_evt_e evt = msg->event;
@@ -499,6 +511,12 @@ wifi_manager_result_e _handler_on_disconnected_state(wifimgr_msg_s *msg)
 #endif
 	} else if (msg->event == WIFIMGR_CMD_DISABLE_11AX_MODE) {
 		WIFIMGR_CHECK_RESULT(_wifimgr_disable_11ax_mode(), (TAG, "critical error\n"), WIFI_MANAGER_FAIL);
+	} else if (msg->event == WIFIMGR_CMD_DISABLE_BFMEE_MODE) {
+		uint8_t disable = *((uint8_t *)msg->param);
+		WIFIMGR_CHECK_RESULT(_wifimgr_disable_bfmee_mode(disable), (TAG, "critical error\n"), WIFI_MANAGER_FAIL);
+	} else if (msg->event == WIFIMGR_CMD_DISABLE_OFDMA_MODE) {
+		uint8_t disable = *((uint8_t *)msg->param);
+		WIFIMGR_CHECK_RESULT(_wifimgr_disable_ofdma_mode(disable), (TAG, "critical error\n"), WIFI_MANAGER_FAIL);
 	} else {
 		WIFIADD_ERR_RECORD(ERR_WIFIMGR_INVALID_EVENT);
 		return WIFI_MANAGER_FAIL;

@@ -263,6 +263,16 @@ int netdev_handle_wifi(struct netdev *dev, lwnl_req cmd, void *data, uint32_t da
 	}
 	break;
 #endif
+	case LWNL_REQ_WIFI_DISABLE_BFMEE_MODE:
+	{
+		TRWIFI_CALL(res, dev, disable_bfmee_mode, (dev, *((uint8_t *)data)));
+	}
+	break;
+	case LWNL_REQ_WIFI_DISABLE_OFDMA_MODE:
+	{
+		TRWIFI_CALL(res, dev, disable_ofdma_mode, (dev, *((uint8_t *)data)));
+	}
+	break;
 	default:
 		break;
 	}

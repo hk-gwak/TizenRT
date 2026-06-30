@@ -98,6 +98,11 @@
 	"\n connectbybestrssi test mode options:\n"					\
 	"	 wm_test connect_by_rssi [SSID_NAME] [SSID_authentication] [SSID_Password] [Repeat Count]\n"\
 
+#define WT_HE_FEATURE_USAGE \
+	"\n 802.11ax feature control (run after 'start', in disconnected state):\n" \
+	"   wm_test bfmee on|off   (beamformee)\n" \
+	"   wm_test ofdma on|off   (OFDMA)\n\n"
+
 #define WT_USAGE									\
 	"\n usage: wm_test [options]\n"					\
 	"\n run Wi-Fi Manager:\n"						\
@@ -115,4 +120,5 @@
 	WT_ADD_AP_USAGE									\
 	WT_DISPLAY_AP_USAGE								\
 	WT_DNS_USAGE									\
-	WT_CONNECTBYBESTRSSI_USAGE
+	WT_CONNECTBYBESTRSSI_USAGE						\
+	WT_HE_FEATURE_USAGE

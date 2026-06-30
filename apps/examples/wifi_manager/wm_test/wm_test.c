@@ -589,6 +589,36 @@ void _wt_set_power(void *arg)
 	WT_LEAVE;
 }
 
+void _wt_set_bfmee(void *arg)
+{
+	WT_ENTER;
+	struct wt_options *opt = (struct wt_options *)arg;
+	/* "on" enables beamformee (disable = 0), "off" disables it (disable = 1) */
+	uint8_t disable = opt->feature_onoff ? 0 : 1;
+	wifi_manager_result_e res = wifi_manager_disable_bfmee_mode(disable);
+	if (res != WIFI_MANAGER_SUCCESS) {
+		WT_LOGE(TAG, "fail to set beamformee mode %s (%d)", opt->feature_onoff ? "on" : "off", res);
+		return;
+	}
+	WT_LOG(TAG, "set beamformee mode %s", opt->feature_onoff ? "on" : "off");
+	WT_LEAVE;
+}
+
+void _wt_set_ofdma(void *arg)
+{
+	WT_ENTER;
+	struct wt_options *opt = (struct wt_options *)arg;
+	/* "on" enables OFDMA (disable = 0), "off" disables it (disable = 1) */
+	uint8_t disable = opt->feature_onoff ? 0 : 1;
+	wifi_manager_result_e res = wifi_manager_disable_ofdma_mode(disable);
+	if (res != WIFI_MANAGER_SUCCESS) {
+		WT_LOGE(TAG, "fail to set ofdma mode %s (%d)", opt->feature_onoff ? "on" : "off", res);
+		return;
+	}
+	WT_LOG(TAG, "set ofdma mode %s", opt->feature_onoff ? "on" : "off");
+	WT_LEAVE;
+}
+
 void _wt_stress_test(void *arg)
 {
 	wm_run_stress_test(arg);
@@ -814,6 +844,21 @@ int _wt_parse_power(struct wt_options *opt, int argc, char *argv[])
 		opt->power_mode = 1;
 	} else if (!strncmp(argv[2], "off", 4)) {
 		opt->power_mode = 0;
+	} else {
+		return -1;
+	}
+	return 0;
+}
+
+int _wt_parse_onoff(struct wt_options *opt, int argc, char *argv[])
+{
+	if (argc != 3) {
+		return -1;
+	}
+	if (!strncmp(argv[2], "on", 3)) {
+		opt->feature_onoff = 1;
+	} else if (!strncmp(argv[2], "off", 4)) {
+		opt->feature_onoff = 0;
 	} else {
 		return -1;
 	}

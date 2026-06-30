@@ -473,6 +473,20 @@ wifi_manager_result_e wifi_manager_disable_11ax_mode(void)
 	RETURN_RESULT(wifimgr_post_message(&msg), msg);
 }
 
+wifi_manager_result_e wifi_manager_disable_bfmee_mode(uint8_t disable)
+{
+	NET_LOGI(TAG, "--> %s %d\n", __FUNCTION__, __LINE__);
+	wifimgr_msg_s msg = {WIFIMGR_CMD_DISABLE_BFMEE_MODE, WIFI_MANAGER_FAIL, (void *)&disable, NULL};
+	RETURN_RESULT(wifimgr_post_message(&msg), msg);
+}
+
+wifi_manager_result_e wifi_manager_disable_ofdma_mode(uint8_t disable)
+{
+	NET_LOGI(TAG, "--> %s %d\n", __FUNCTION__, __LINE__);
+	wifimgr_msg_s msg = {WIFIMGR_CMD_DISABLE_OFDMA_MODE, WIFI_MANAGER_FAIL, (void *)&disable, NULL};
+	RETURN_RESULT(wifimgr_post_message(&msg), msg);
+}
+
 /**
  * Wi-Fi Profile
  */

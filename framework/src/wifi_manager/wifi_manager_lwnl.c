@@ -294,3 +294,23 @@ trwifi_result_e wifi_utils_disable_11ax_mode(uint8_t disable)
 	}
 	return res;
 }
+
+trwifi_result_e wifi_utils_disable_bfmee_mode(uint8_t disable)
+{
+	trwifi_result_e res = TRWIFI_SUCCESS;
+	lwnl_msg msg = {WU_INTF_NAME, {LWNL_REQ_WIFI_DISABLE_BFMEE_MODE}, sizeof(uint8_t), (void *)&disable, (void *)&res};
+	if (_send_msg(&msg) < 0) {
+		return TRWIFI_FAIL;
+	}
+	return res;
+}
+
+trwifi_result_e wifi_utils_disable_ofdma_mode(uint8_t disable)
+{
+	trwifi_result_e res = TRWIFI_SUCCESS;
+	lwnl_msg msg = {WU_INTF_NAME, {LWNL_REQ_WIFI_DISABLE_OFDMA_MODE}, sizeof(uint8_t), (void *)&disable, (void *)&res};
+	if (_send_msg(&msg) < 0) {
+		return TRWIFI_FAIL;
+	}
+	return res;
+}

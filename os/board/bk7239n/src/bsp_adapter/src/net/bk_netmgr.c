@@ -139,7 +139,11 @@ struct trwifi_ops g_trwifi_bk_ops = {
     bk_wifi_netmgr_get_driver_info,             /* get_driver_info */
     bk_wifi_netmgr_get_wpa_supplicant_state,    /* get_wpa_supplicant_state */
     bk_wifi_netmgr_disable_11ax_mode,           /* disable_11ax_mode */
+#if defined(CONFIG_ENABLE_HOMELYNK) && (CONFIG_ENABLE_HOMELYNK == 1)
     bk_wifi_netmgr_set_bridge,                  /* set_bridge */
+#endif
+    bk_wifi_netmgr_disable_bfmee_mode,          /* disable_bfmee_mode */
+    bk_wifi_netmgr_disable_ofdma_mode,          /* disable_ofdma_mode */
 };
 
 extern struct netdev *armino_dev_wlan0;

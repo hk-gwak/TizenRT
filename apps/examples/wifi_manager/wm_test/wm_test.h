@@ -35,6 +35,7 @@ struct wt_options {
 	int scan_specific;
 	uint32_t stress_tc_idx;
 	uint8_t power_mode;
+	uint8_t feature_onoff; /* he-feature on/off (bfmee/ofdma): 1=on(enable), 0=off(disable) */
 	char *security;
 	char *path;
 	int repeat;

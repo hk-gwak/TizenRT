@@ -37,3 +37,5 @@ trwifi_result_e wifi_utils_get_wpa_supplicant_state(trwifi_wpa_states *wpa_state
 #if defined(CONFIG_ENABLE_HOMELYNK) && (CONFIG_ENABLE_HOMELYNK == 1)
 trwifi_result_e wifi_utils_control_bridge(uint8_t enable);
 #endif
+trwifi_result_e wifi_utils_disable_bfmee_mode(uint8_t disable);
+trwifi_result_e wifi_utils_disable_ofdma_mode(uint8_t disable);

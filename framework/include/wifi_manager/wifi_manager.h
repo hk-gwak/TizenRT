@@ -620,6 +620,20 @@ wifi_manager_result_e wifi_manager_control_bridge(bool enable, wifi_manager_soft
 
 wifi_manager_result_e wifi_manager_disable_11ax_mode(void);
 
+/**
+ * @brief Disable/enable 802.11 beamformee (Tx beamforming) capability.
+ * @param[in] disable : non-zero disables beamformee, zero enables it
+ * @return On success, WIFI_MANAGER_SUCCESS (0) is returned. On failure, non-zero is returned.
+ */
+wifi_manager_result_e wifi_manager_disable_bfmee_mode(uint8_t disable);
+
+/**
+ * @brief Disable/enable 802.11ax OFDMA capability.
+ * @param[in] disable : non-zero disables OFDMA, zero enables it
+ * @return On success, WIFI_MANAGER_SUCCESS (0) is returned. On failure, non-zero is returned.
+ */
+wifi_manager_result_e wifi_manager_disable_ofdma_mode(uint8_t disable);
+
 #ifdef __cplusplus
 }
 #endif

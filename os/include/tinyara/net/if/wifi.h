@@ -132,6 +132,8 @@ typedef enum {
 #if defined(CONFIG_ENABLE_HOMELYNK) && (CONFIG_ENABLE_HOMELYNK == 1)
 	LWNL_REQ_WIFI_SETBRIDGE,
 #endif
+	LWNL_REQ_WIFI_DISABLE_BFMEE_MODE,
+	LWNL_REQ_WIFI_DISABLE_OFDMA_MODE,
 	LWNL_REQ_WIFI_UNKNOWN,
 } lwnl_req_wifi;
 
@@ -692,6 +694,12 @@ typedef trwifi_result_e (*trwifi_get_wpa_supplicant_state)(struct netdev *dev, t
  */
 typedef trwifi_result_e (*trwifi_disable_11ax_mode)(struct netdev *dev, uint8_t disable);
 
+/* enable/disable 802.11 beamformee capability (disable != 0 disables) */
+typedef trwifi_result_e (*trwifi_disable_bfmee_mode)(struct netdev *dev, uint8_t disable);
+
+/* enable/disable 802.11ax OFDMA capability (disable != 0 disables) */
+typedef trwifi_result_e (*trwifi_disable_ofdma_mode)(struct netdev *dev, uint8_t disable);
+
 struct trwifi_ops {
 	trwifi_init init;
 	trwifi_deinit deinit;
@@ -714,6 +722,8 @@ struct trwifi_ops {
 #if defined(CONFIG_ENABLE_HOMELYNK) && (CONFIG_ENABLE_HOMELYNK == 1)
 	trwifi_set_bridge set_bridge;
 #endif
+	trwifi_disable_bfmee_mode disable_bfmee_mode;
+	trwifi_disable_ofdma_mode disable_ofdma_mode;
 	
 };
 
